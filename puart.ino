@@ -18,7 +18,7 @@
 #define PUART_RESET_BUF memset(item->buf, 0, sizeof (*item->buf) * PUART_BUF_LENGTH); item->bi = 0;
 #define PUART_SET_CMD strncpy(item->cmd, item->buf, sizeof (*item->cmd) * PUART_BUF_LENGTH);
 
-#define CMD_GET_FTS "cgfts"
+#define CMD_GET_FTS "gfts"
 
 #define PUART_CMD_SELECT "select"
 #define PUART_CMD_END "end"
@@ -216,4 +216,4 @@ return;
 return;
 }
 
-// select;1;cgfts;end;
+
