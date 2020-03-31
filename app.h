@@ -42,7 +42,7 @@
  * default settings, and you will be able to get and set only main parameters, 
  * but this will reduce memory usage.
  */
-#define SERIAL_INTERFACE_FULL
+//#define SERIAL_INTERFACE_FULL
 
 /*
  * -user_config:
@@ -57,7 +57,7 @@
  * -user_config:
  * uncomment the following line if you need debug messages:
  */
-//#define MODE_DEBUG
+#define MODE_DEBUG
 
 
 #endif 

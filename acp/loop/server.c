@@ -11,11 +11,15 @@ void acpls_resetNodes(ACPLCommandNode *nodes, size_t length){
 void acpl_server(ACPL *item, ACPLCommandNode *cnodes, size_t cnode_count, HardwareSerial *serial) {
 	ton_reset(&item->busy_tmr);
 	switch(item->state){
-		case ACP_READ_REQUEST:
-			if(acpl_readRequest(item, serial) == ACP_DONE){
-				item->state = ACP_CONSIDER_PACK;
+		case ACP_INIT:
+		case ACP_READ_REQUEST:{
+			int r = acpl_readRequest(item, serial);
+			switch(r){
+				case ACP_BUSY: return;
+				case ACP_DONE: item->state = ACP_CONSIDER_PACK; return;
+				default: ACPLS_RESET return;
 			}
-			break;
+			break;}
 		case ACP_CONSIDER_PACK:
 			//printdln("consider pack");
 			if(acp_packCheckCRC(item->buf)){
@@ -64,9 +68,6 @@ void acpl_server(ACPL *item, ACPLCommandNode *cnodes, size_t cnode_count, Hardwa
 					break;
 			}
 			break;}
-		case ACP_INIT:
-			item->state = ACP_READ_REQUEST;
-			break;
 		default:
 			ACPLS_RESET
 			break;
