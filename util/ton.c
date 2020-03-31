@@ -20,3 +20,13 @@ int ton(Ton *item){
 	return 0;
 }
 
+//reset on timeout
+int tonr(Ton *item){
+	unsigned long now = millis();
+	if(now > item->end){
+		item->end = now + item->interval;
+		return 1;
+	}
+	return 0;
+}
+
