@@ -42,7 +42,7 @@ void channels_buildFromArray(ChannelLList *channels, Channel arr[]){
 	}
 }
 
-#define SET_CHANNEL_PARAM(ID, SENSOR_IND) if(chn != NULL){channel_setParam(chn, ID, SENSOR_IND);chn = chn->next;} else {printdln("call SET_CHANNEL_PIN for each channel"); return 0;}
+#define SET_CHANNEL_PARAM(ID, SENSOR_IND) if(chn != NULL){channel_setParam(chn, ID, SENSOR_IND);chn = chn->next;} else {printdln("call SET_CHANNEL_PARAM for each channel"); return 0;}
 int channels_begin(ChannelLList *channels, int default_btn){
 	extern Channel channel_buf[CHANNEL_COUNT];
 	channels_buildFromArray(channels, channel_buf);
@@ -50,7 +50,7 @@ int channels_begin(ChannelLList *channels, int default_btn){
 	/*
 	 * -user_config:
 	 * call
-	 * SET_CHANNEL_PIN(id, sensor_ind)
+	 * SET_CHANNEL_PARAM(id, sensor_ind)
 	 * for each channel:
 	 */
 	SET_CHANNEL_PARAM(11, 2);
