@@ -129,7 +129,7 @@ void app_errControl(App *item){
 	item->ectl_state = state;
 }
 
-void app_control(App *item, AppSerial serials[], ACPLCommandNode acnodes[], size_t acnodes_count, ChannelLList *channels) { 
+void app_control(App *item, AppSerial serials[], ChannelLList *channels) { 
 	switch(item->state){
 		case RUN:{
 			if (tonr(&item->tmr)) {
@@ -138,7 +138,7 @@ void app_control(App *item, AppSerial serials[], ACPLCommandNode acnodes[], size
 				sensors->requestTemperatures();
 				unsigned long t_end = sensors->millisToWaitForConversion(SENSOR_RESOLUTION) + millis();
 				while(millis() < t_end){
-					appSerials_control(serials, acnodes, acnodes_count);
+					appSerials_control(serials);
 				}
 				item->error_id = ERROR_NO;
 				FOREACH_CHANNEL(channels)
@@ -147,12 +147,12 @@ void app_control(App *item, AppSerial serials[], ACPLCommandNode acnodes[], size
 						item->error_id = ERROR_SUBBLOCK;
 						printdln("channel error");
 					}
-					appSerials_control(serials, acnodes, acnodes_count);
+					appSerials_control(serials);
 				}
 				app_errControl(item);
 				//digitalWrite(INDICATOR_PIN, LOW);
 			}
-			appSerials_control(serials, acnodes, acnodes_count);
+			appSerials_control(serials);
 			break;}
 		case INIT:
 			item->state = app_begin(item, serials, channels);
@@ -161,7 +161,7 @@ void app_control(App *item, AppSerial serials[], ACPLCommandNode acnodes[], size
 			FOREACH_CHANNEL(channels)
 				channel_control(channel, &item->sensors);
 			}
-			appSerials_control(serials, acnodes, acnodes_count);
+			appSerials_control(serials);
 			if(!channels_activeExists(channels)){
 				item->state = DSTEP2;
 			}

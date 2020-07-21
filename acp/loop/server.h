@@ -2,16 +2,16 @@
 #define ACPL_SERVER_H
 
 #include "main.h"
-#include "../../model/channel.h"
 
 typedef struct {
-	const char *command;
+	int command;
 	void (*func) (ACPL *, HardwareSerial *serial);
 } ACPLCommandNode;
 
 #define ACPLS_RESET acpl_reset(item);
 
-extern void acpls_resetNodes(ACPLCommandNode *nodes, size_t length);
-extern void acpl_server(ACPL *item, ACPLCommandNode *cnodes, size_t cnode_count, HardwareSerial *serial);
+extern void acpls_resetNodes();
+extern void acpl_server(ACPL *item, HardwareSerial *serial);
+
 
 #endif

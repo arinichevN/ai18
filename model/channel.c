@@ -15,8 +15,6 @@ const char *channel_getErrorStr(Channel *item){
 	return getErrorStr(item->error_id);
 }
 
-int channel_getEnable (Channel *item){return 1;}
-
 void channel_setParam(Channel *item, int id, int sensor_ind){
 	item->id = id;
 	item->sensor_ind = sensor_ind;
@@ -25,7 +23,10 @@ void channel_init(Channel *item){
 	item->state = INIT;
 }
 
-void channel_begin(Channel *item){
+void channel_begin(Channel *item, size_t ind, int default_btn){
+	item->ind = ind;
+	item->enable = YES;
+	item->device_kind = DEVICE_KIND_TIMER;
 	item->state = INIT;
 }
 
@@ -63,7 +64,7 @@ int channels_begin(ChannelLList *channels, int default_btn){
 	}
 	size_t i = 0;
 	FOREACH_CHANNEL(channels)
-		channel_begin(channel); i++;
+		channel_begin(channel, i, BUTTON_UP); i++;
 		if(channel->error_id != ERROR_NO) return 0;
 	}
 	return 1;
@@ -71,7 +72,7 @@ int channels_begin(ChannelLList *channels, int default_btn){
 
 int channel_start(Channel *item){
 	printd("(starting channel ");printdln(item->id);printd(") ");
-	channel_begin(item);
+	item->state = INIT;
 	return 1;
 }
 
@@ -112,6 +113,9 @@ int channels_getIdFirst(ChannelLList *channels, int *out){
 	*out = v;
 	return success;
 }
+
+int CHANNEL_FUN_GET(enable)(Channel *item){return item->enable;}
+int CHANNEL_FUN_GET(device_kind)(Channel *item){return item->device_kind;}
 
 int channel_control(Channel *item, DallasTemperature *sensors){
 	switch(item->state){

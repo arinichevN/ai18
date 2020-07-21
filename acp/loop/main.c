@@ -23,7 +23,6 @@ void acpl_reset(ACPL *item){
 	item->state = ACP_INIT;
 }
 
-
 ACPL *acpl_new(){
 	ACPL *out = (ACPL *) malloc(sizeof (ACPL));
 	return out;
@@ -56,7 +55,10 @@ int acpl_readResponse(ACPL *item, HardwareSerial *serial){
 	    ACPL_READ_CHAR
 	    ACPL_BUF_PUSH(c)
 	    if (c == ACP_DELIMITER_END) {
-	      if (ACPL_BUF_LEN < ACP_MIN_PACK_LENGTH) {printd(" short pack)"); return ACP_ERROR_SHORT_PACKAGE;}
+	      if (ACPL_BUF_LEN < ACP_MIN_PACK_LENGTH) {
+			 // printd(" short pack)"); 
+			  return ACP_ERROR_SHORT_PACKAGE;
+			 }
 		 // printd("buf: ");printd(ACPL_BUF);
 		  //printd("success) ");
 	      return ACP_DONE;
@@ -76,7 +78,10 @@ int acpl_readRequest(ACPL *item, HardwareSerial *serial){
 	    ACPL_CHECK_PACK_TIME
 	    ACPL_BUF_PUSH(c)
 	    if (c == ACP_DELIMITER_END) {
-	      if (ACPL_BUF_LEN < ACP_MIN_PACK_LENGTH) {printd(" short pack)"); return ACP_ERROR_SHORT_PACKAGE;}
+	      if (ACPL_BUF_LEN < ACP_MIN_PACK_LENGTH) {
+			  //printd(" short pack)"); 
+			  return ACP_ERROR_SHORT_PACKAGE;
+			 }
 		  //printd("buf: ");printd(ACPL_BUF);
 		 // printd("success) ");
 	      return ACP_DONE;
