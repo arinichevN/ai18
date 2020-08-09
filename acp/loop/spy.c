@@ -71,14 +71,14 @@ void acpl_spy(ACPLSpy *item, ACPL *acpl, HardwareSerial *serial) {
 		case ACP_CONSIDER_REQUEST:
 		//	printdln("consider pack");
 			if(acp_packCheckCRC(acpl->buf)){
-				if(acpl->buf[1] == ACP_SIGN_REQUEST){
+				if(acpl->buf[ACP_BUF_IND_SIGN] == ACP_SIGN_REQUEST){
 					int cmd;
-					if(!acp_packGetCellI(acpl->buf, 1, &cmd)){
+					if(!acp_packGetCellI(acpl->buf, ACP_IND_CMD, &cmd)){
 						//printdln("request: failed to read cmd");
 						ACPLS_RESET return;
 					}
 					int id;
-					if(!acp_packGetCellI(acpl->buf, 2, &id)){
+					if(!acp_packGetCellI(acpl->buf, ACP_IND_ID, &id)){
 						//printdln("request: failed to read channel id");
 						ACPLS_RESET return;
 					}
@@ -118,8 +118,8 @@ void acpl_spy(ACPLSpy *item, ACPL *acpl, HardwareSerial *serial) {
 			int id;
 			int success = 0;
 			if(acp_packCheckCRC(acpl->buf)){
-				if(acpl->buf[1] == ACP_SIGN_RESPONSE){
-					if(acp_packGetCellI(acpl->buf, 1, &id)){
+				if(acpl->buf[ACP_BUF_IND_SIGN] == ACP_SIGN_RESPONSE){
+					if(acp_packGetCellI(acpl->buf, ACP_IND_ID, &id)){
 						if(item->last_id == id){
 							success = 1;
 						}else{

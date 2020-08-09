@@ -39,6 +39,14 @@
 #define ADCS ACP_DELIMITER_COLUMN_STR 
 #define ADES ACP_DELIMITER_END_STR
 
+#define ACP_BUF_IND_SIGN 1
+#define ACP_IND_CMD 1
+#define ACP_IND_ID 2
+#define ACP_IND_PARAM1 3
+#define ACP_IND_PARAM2 4
+#define ACP_IND_PARAM3 5
+#define ACP_IND_PARAM4 6
+
 enum ACPStateE {
 	ACP_DONE,
 	ACP_BUSY,

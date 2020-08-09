@@ -31,7 +31,6 @@ enum ACPCommandE {
 	CMD_GET_APP_SERIAL_KIND,
 
 //====================CHANNEL==================================================
-
 	CMD_CHANNEL_START,
 	CMD_CHANNEL_STOP,
 	CMD_CHANNEL_RELOAD,
@@ -147,9 +146,10 @@ enum ACPCommandE {
 	CMD_GETR_RSENSOR_ERROR,
 
 //====================RTC==================================================
-	CMD_SET_RTC_UNIXTIME,
-
-	CMD_GET_RTC_UNIXTIME,
+	CMD_SET_RTC_DATE,
+	CMD_SET_RTC_TIME,
+	CMD_GET_RTC_DATE,
+	CMD_GET_RTC_TIME,
 
 //====================SECURE==================================================
 	CMD_SET_SEC_ENABLE,
@@ -201,7 +201,10 @@ enum ACPCommandE {
 	CMD_GETR_TIMER_OUTPUT_ON,
 	CMD_GETR_TIMER_OUTPUT_OFF,
 	CMD_GETR_TIMER_INTERVAL_ON,
-	CMD_GETR_TIMER_INTERVAL_OFF
+	CMD_GETR_TIMER_INTERVAL_OFF,
+	
+	CMD_GATEWAY_PRINT,
+	CMD_GATEWAY_RESET
 };
 
 #endif 

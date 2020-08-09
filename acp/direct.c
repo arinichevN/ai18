@@ -112,17 +112,17 @@ int acpd_getII(HardwareSerial *serial, const char *cmd, int channel_id, int *out
 	if(!acp_packCheckCRC(ACPD_BUF)){
 		return 0;
 	}
-	if(ACPD_BUF[1] != ACP_SIGN_RESPONSE){
+	if(ACPD_BUF[ACP_BUF_IND_SIGN] != ACP_SIGN_RESPONSE){
 		return 0;
 	}
 	int tchannel_id;
-	if(!acp_packGetCellI (ACPD_BUF, 1, &tchannel_id)){
+	if(!acp_packGetCellI (ACPD_BUF, ACP_IND_ID, &tchannel_id)){
 		return 0;
 	}
 	if(tchannel_id != channel_id){
 		return 0;
 	}
-	if(!acp_packGetCellI (ACPD_BUF, 2, out)){
+	if(!acp_packGetCellI (ACPD_BUF, ACP_IND_PARAM1, out)){
 		return 0;
 	}
 	return 1;
@@ -138,17 +138,17 @@ int acpd_getIUl(HardwareSerial *serial, const char *cmd, int channel_id, unsigne
 	if(!acp_packCheckCRC(ACPD_BUF)){
 		return 0;
 	}
-	if(ACPD_BUF[1] != ACP_SIGN_RESPONSE){
+	if(ACPD_BUF[ACP_BUF_IND_SIGN] != ACP_SIGN_RESPONSE){
 		return 0;
 	}
 	int tchannel_id;
-	if(!acp_packGetCellI (ACPD_BUF, 1, &tchannel_id)){
+	if(!acp_packGetCellI (ACPD_BUF, ACP_IND_ID, &tchannel_id)){
 		return 0;
 	}
 	if(tchannel_id != channel_id){
 		return 0;
 	}
-	if(!acp_packGetCellUl (ACPD_BUF, 2, out)){
+	if(!acp_packGetCellUl (ACPD_BUF, APC_IND_PARAM1, out)){
 		return 0;
 	}
 	return 1;
@@ -167,18 +167,18 @@ int acpd_getIS(HardwareSerial *serial, const char *cmd, int channel_id, char *ou
 	if(!acp_packCheckCRC(ACPD_BUF)){
 		return 0;
 	}
-	if(ACPD_BUF[1] != ACP_SIGN_RESPONSE){
+	if(ACPD_BUF[ACP_BUF_IND_SIGN] != ACP_SIGN_RESPONSE){
 		return 0;
 	}
 	int tchannel_id;
-	if(!acp_packGetCellI (ACPD_BUF, 1, &tchannel_id)){
+	if(!acp_packGetCellI (ACPD_BUF, ACP_IND_ID, &tchannel_id)){
 		return 0;
 	}
 	if(tchannel_id != channel_id){
 		printd(tchannel_id);
 		return 0;
 	}
-	if(!acp_packGetCellS (ACPD_BUF, 2, out, slen)){
+	if(!acp_packGetCellS (ACPD_BUF, ACP_IND_PARAM1, out, slen)){
 		return 0;
 	}
 	return 1;

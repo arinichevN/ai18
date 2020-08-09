@@ -143,14 +143,14 @@ int acplc_getBrII(ACPL *item, int cmd, int *v1, int *v2){
 			if(!acp_packCheckCRC(item->buf)){
 				return ACP_ERROR_CRC;
 			}
-			if(item->buf[1] != ACP_SIGN_RESPONSE){
+			if(item->buf[ACP_BUF_IND_SIGN] != ACP_SIGN_RESPONSE){
 				return ACP_ERROR_SIGN;
 			}
 			int _v1;
-			if(!acp_packGetCellI (item->buf, 1, &_v1)){
+			if(!acp_packGetCellI (item->buf, ACP_IND_ID, &_v1)){
 				return ACP_ERROR_FORMAT;
 			}
-			if(!acp_packGetCellI (item->buf, 2, v2)){
+			if(!acp_packGetCellI (item->buf, ACP_IND_PARAM1, v2)){
 				return ACP_ERROR_FORMAT;
 			}
 			*v1 = _v1;
@@ -179,18 +179,18 @@ int acplc_getIS(ACPL *item, int cmd, int channel_id, char *out, size_t slen){
 			if(!acp_packCheckCRC(item->buf)){
 				return ACP_ERROR_CRC;
 			}
-			if(item->buf[1] != ACP_SIGN_RESPONSE){
+			if(item->buf[ACP_BUF_IND_SIGN] != ACP_SIGN_RESPONSE){
 				return ACP_ERROR_SIGN;
 			}
 			int tchannel_id;
-			if(!acp_packGetCellI (item->buf, 1, &tchannel_id)){
+			if(!acp_packGetCellI (item->buf, ACP_IND_ID, &tchannel_id)){
 				return ACP_ERROR_FORMAT;
 			}
 			if(tchannel_id != channel_id){
 				printd(tchannel_id);
 				return ACP_ERROR_BAD_CHANNEL_ID;
 			}
-			if(!acp_packGetCellS (item->buf, 2, out, slen)){
+			if(!acp_packGetCellS (item->buf, ACP_IND_PARAM1, out, slen)){
 				return ACP_ERROR_FORMAT;
 			}
 			return ACP_DONE;
@@ -217,7 +217,7 @@ int acplc_getFTS(ACPL *item, int cmd, int channel_id, FTS *out){
 				printd("(acplc_getFTS: bad crc)");
 				return ACP_ERROR_CRC;
 			}
-			if(item->buf[1] != ACP_SIGN_RESPONSE){
+			if(item->buf[ACP_BUF_IND_SIGN] != ACP_SIGN_RESPONSE){
 				return ACP_ERROR_SIGN;
 			}
 			if(!acp_packGetFTS(item->buf, channel_id, out)){
@@ -251,18 +251,18 @@ int acplc_getII(ACPL *item, int cmd, int channel_id, int *out){
 			if(!acp_packCheckCRC(item->buf)){
 				return ACP_ERROR_CRC;
 			}
-			if(item->buf[1] != ACP_SIGN_RESPONSE){
+			if(item->buf[ACP_BUF_IND_SIGN] != ACP_SIGN_RESPONSE){
 				return ACP_ERROR_SIGN;
 			}
 			int tchannel_id;
-			if(!acp_packGetCellI (item->buf, 1, &tchannel_id)){
+			if(!acp_packGetCellI (item->buf, ACP_IND_ID, &tchannel_id)){
 				return ACP_ERROR_FORMAT;
 			}
 			if(tchannel_id != channel_id){
 				printd(tchannel_id);
 				return ACP_ERROR_BAD_CHANNEL_ID;
 			}
-			if(!acp_packGetCellI (item->buf, 2, out)){
+			if(!acp_packGetCellI (item->buf, ACP_IND_PARAM1, out)){
 				return ACP_ERROR_FORMAT;
 			}
 			return ACP_DONE;
@@ -290,18 +290,18 @@ int acplc_getIF(ACPL *item, int cmd, int channel_id, double *out){
 			if(!acp_packCheckCRC(item->buf)){
 				return ACP_ERROR_CRC;
 			}
-			if(item->buf[1] != ACP_SIGN_RESPONSE){
+			if(item->buf[ACP_BUF_IND_SIGN] != ACP_SIGN_RESPONSE){
 				return ACP_ERROR_SIGN;
 			}
 			int tchannel_id;
-			if(!acp_packGetCellI (item->buf, 1, &tchannel_id)){
+			if(!acp_packGetCellI (item->buf, ACP_IND_ID, &tchannel_id)){
 				return ACP_ERROR_FORMAT;
 			}
 			if(tchannel_id != channel_id){
 				printd(tchannel_id);
 				return ACP_ERROR_BAD_CHANNEL_ID;
 			}
-			if(!acp_packGetCellF (item->buf, 2, out)){
+			if(!acp_packGetCellF (item->buf, ACP_IND_PARAM1, out)){
 				return ACP_ERROR_FORMAT;
 			}
 			return ACP_DONE;
@@ -326,11 +326,11 @@ int acplc_getIII(ACPL *item, int cmd, int channel_id, int id2, int *out){
 			if(!acp_packCheckCRC(item->buf)){
 				return ACP_ERROR_CRC;
 			}
-			if(item->buf[1] != ACP_SIGN_RESPONSE){
+			if(item->buf[ACP_BUF_IND_SIGN] != ACP_SIGN_RESPONSE){
 				return ACP_ERROR_SIGN;
 			}
 			int tchannel_id;
-			if(!acp_packGetCellI (item->buf, 1, &tchannel_id)){
+			if(!acp_packGetCellI (item->buf, ACP_IND_ID, &tchannel_id)){
 				return ACP_ERROR_FORMAT;
 			}
 			if(tchannel_id != channel_id){
@@ -338,14 +338,14 @@ int acplc_getIII(ACPL *item, int cmd, int channel_id, int id2, int *out){
 				return ACP_ERROR_BAD_CHANNEL_ID;
 			}
 			int tid2;
-			if(!acp_packGetCellI (item->buf, 2, &tid2)){
+			if(!acp_packGetCellI (item->buf, ACP_IND_PARAM1, &tid2)){
 				return ACP_ERROR_FORMAT;
 			}
 			if(tid2 != id2){
 				printd(tid2);
 				return ACP_ERROR_BAD_CHANNEL_ID;
 			}
-			if(!acp_packGetCellI (item->buf, 3, out)){
+			if(!acp_packGetCellI (item->buf, ACP_IND_PARAM2, out)){
 				return ACP_ERROR_FORMAT;
 			}
 			return ACP_DONE;
@@ -371,11 +371,11 @@ int acplc_getIIII(ACPL *item, int cmd, int channel_id, int id2, int *v1, int *v2
 			if(!acp_packCheckCRC(item->buf)){
 				return ACP_ERROR_CRC;
 			}
-			if(item->buf[1] != ACP_SIGN_RESPONSE){
+			if(item->buf[ACP_BUF_IND_SIGN] != ACP_SIGN_RESPONSE){
 				return ACP_ERROR_SIGN;
 			}
 			int tchannel_id;
-			if(!acp_packGetCellI (item->buf, 1, &tchannel_id)){
+			if(!acp_packGetCellI (item->buf, ACP_IND_ID, &tchannel_id)){
 				return ACP_ERROR_FORMAT;
 			}
 			if(tchannel_id != channel_id){
@@ -383,7 +383,7 @@ int acplc_getIIII(ACPL *item, int cmd, int channel_id, int id2, int *v1, int *v2
 				return ACP_ERROR_BAD_CHANNEL_ID;
 			}
 			int tid2;
-			if(!acp_packGetCellI (item->buf, 2, &tid2)){
+			if(!acp_packGetCellI (item->buf, ACP_IND_PARAM1, &tid2)){
 				return ACP_ERROR_FORMAT;
 			}
 			if(tid2 != id2){
@@ -391,10 +391,10 @@ int acplc_getIIII(ACPL *item, int cmd, int channel_id, int id2, int *v1, int *v2
 				return ACP_ERROR_BAD_CHANNEL_ID;
 			}
 			int _v1;
-			if(!acp_packGetCellI (item->buf, 3, &_v1)){
+			if(!acp_packGetCellI (item->buf, ACP_IND_PARAM2, &_v1)){
 				return ACP_ERROR_FORMAT;
 			}
-			if(!acp_packGetCellI (item->buf, 4, v2)){
+			if(!acp_packGetCellI (item->buf, ACP_IND_PARAM3, v2)){
 				return ACP_ERROR_FORMAT;
 			}
 			*v1 = _v1;
@@ -421,18 +421,18 @@ int acplc_getIUl(ACPL *item, int cmd, int channel_id, unsigned long *out){
 			if(!acp_packCheckCRC(item->buf)){
 				return ACP_ERROR_CRC;
 			}
-			if(item->buf[1] != ACP_SIGN_RESPONSE){
+			if(item->buf[ACP_BUF_IND_SIGN] != ACP_SIGN_RESPONSE){
 				return ACP_ERROR_SIGN;
 			}
 			int tchannel_id;
-			if(!acp_packGetCellI (item->buf, 1, &tchannel_id)){
+			if(!acp_packGetCellI (item->buf, ACP_IND_ID, &tchannel_id)){
 				return ACP_ERROR_FORMAT;
 			}
 			if(tchannel_id != channel_id){
 				printd(tchannel_id);
 				return ACP_ERROR_BAD_CHANNEL_ID;
 			}
-			if(!acp_packGetCellUl (item->buf, 2, out)){
+			if(!acp_packGetCellUl (item->buf, ACP_IND_PARAM1, out)){
 				return ACP_ERROR_FORMAT;
 			}
 			return ACP_DONE;

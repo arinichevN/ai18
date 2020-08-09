@@ -162,26 +162,26 @@ int acp_packGetCellUl(const char *pack_str, int cell_ind, unsigned long *out){
 
 int acp_packGetFTS(const char *pack_str, int channel_id, FTS *out){
 	int tchannel_id;
-	if(pack_str[1] != ACP_SIGN_RESPONSE){
+	if(pack_str[ACP_BUF_IND_SIGN] != ACP_SIGN_RESPONSE){
 		return 0;
 	}
-	if(!acp_packGetCellI (pack_str, 1, &tchannel_id)){
+	if(!acp_packGetCellI (pack_str, ACP_IND_ID, &tchannel_id)){
 		return 0;
 	}
 	if(channel_id != tchannel_id){
 		return 0;
 	}
 	FTS tout;
-	if(!acp_packGetCellF (pack_str, 2, &tout.value)){
+	if(!acp_packGetCellF (pack_str, ACP_IND_PARAM1, &tout.value)){
 		return 0;
 	}
-	if(!acp_packGetCellUl (pack_str, 3, &tout.tm.tv_sec)){
+	if(!acp_packGetCellUl (pack_str, ACP_IND_PARAM2, &tout.tm.tv_sec)){
 		return 0;
 	}
-	if(!acp_packGetCellUl (pack_str, 4, &tout.tm.tv_nsec)){
+	if(!acp_packGetCellUl (pack_str, ACP_IND_PARAM3, &tout.tm.tv_nsec)){
 		return 0;
 	}
-	if(!acp_packGetCellI (pack_str, 5, &tout.state)){
+	if(!acp_packGetCellI (pack_str, ACP_IND_PARAM4, &tout.state)){
 		return 0;
 	}
 	*out = tout;

@@ -8,10 +8,10 @@ extern void print_var(HardwareSerial *serial);
 #include "../acp/command/main.h"
 
 Channel *srvc_getChannel(ACPL *item){
-	int v;
-	if(acp_packGetCellI(item->buf, 2, &v)){
+	int id;
+	if(acp_packGetCellI(item->buf, 2, &id)){
 		FOREACH_CHANNEL(&channels)
-			if(channel->id == v){
+			if(id == channel->id){
 				return channel;
 			}
 		}
@@ -24,9 +24,9 @@ Channel *srvc_getChannel(ACPL *item){
 }
 
 int srvc_forThisApp(ACPL *item){
-	int v;
-	if(acp_packGetCellI(item->buf, 2, &v)){
-		if(v == app.id){
+	int id;
+	if(acp_packGetCellI(item->buf, 2, &id)){
+		if(id == app.id){
 			return 1;
 		}else{
 			printdln("\tnot for this app");
@@ -36,7 +36,6 @@ int srvc_forThisApp(ACPL *item){
 	printdln("\tfailed to get app_id");
 	return 0;
 }
-
 void acnf_getFTS (ACPL *item, HardwareSerial *serial){
 	Channel *channel = srvc_getChannel(item);
 	if(channel == NULL) {ACPL_RESET return;}

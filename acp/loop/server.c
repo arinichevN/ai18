@@ -23,11 +23,11 @@ void acpl_server(ACPL *item, HardwareSerial *serial) {
 			}
 			break;}
 		case ACP_CONSIDER_REQUEST:
-		//	printdln("consider pack");
+			//printdln("consider pack");
 			if(acp_packCheckCRC(item->buf)){
-				if(item->buf[1] == ACP_SIGN_REQUEST){
+				if(item->buf[ACP_BUF_IND_SIGN] == ACP_SIGN_REQUEST){
 					int cmd;
-					if(acp_packGetCellI(item->buf, 1, &cmd)){
+					if(acp_packGetCellI(item->buf, ACP_IND_CMD, &cmd)){
 						int command_found = 0;
 						for(size_t i = 0; i < ACPL_CNODE_COUNT; i++) {
 							ACPLCommandNode *cnode = &acnodes[i];
@@ -36,24 +36,25 @@ void acpl_server(ACPL *item, HardwareSerial *serial) {
 								command_found = 1;
 								if(cnode->func != NULL){
 									cnode->func(item, serial);
+									//printdln("server function done");
 									break;
 								}else{
-									//printdln("no function");
+									printdln("no function");
 									ACPLS_RESET return;
 								}
 								break;
 							}
 						}
 						if(!command_found){
-							//printdln("command not found");
+							printdln("command not found");
 							ACPLS_RESET return;
 						}
 					}else{
-						//printdln("failed to read cmd");
+						printdln("failed to read cmd");
 						ACPLS_RESET return;
 					}
 				}else{
-					printdln("bad sign");
+					printd("bad sign:");printdln(item->buf);
 					ACPLS_RESET return;
 				}
 			}else{

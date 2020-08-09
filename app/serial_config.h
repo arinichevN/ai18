@@ -2,10 +2,10 @@
 #define APP_SERIAL_CONFIG_H
 
 typedef struct {
-	int rate;
-	int config;
-	int kind;//APP_SERIAL_KIND_SERVER or APP_SERIAL_KIND_CLIENT or APP_SERIAL_KIND_DEBUG
-	int id;
+	kind_t rate;
+	kind_t config;
+	kind_t kind;//APP_SERIAL_KIND_SERVER or APP_SERIAL_KIND_CLIENT or APP_SERIAL_KIND_DEBUG
+	id_t id;
 } AppSerialConfig;
 
 #define APPCONFIGSR_GET_FIELD_FUNC(FIELD) appcgfsf ## FIELD

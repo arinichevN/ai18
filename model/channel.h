@@ -13,15 +13,15 @@
 #define CHANNEL_COUNT 3
 
 struct channel_st {
-	id_t id;
-	kind_t device_kind;
-	state_t enable;
+	int id;
+	int device_kind;
+	int enable;
 	size_t ind;
 	
 	int sensor_ind;
 	FTS out;
-	errorid_t error_id;
-	state_t state;
+	int error_id;
+	int state;
 	struct channel_st *next;
 };
 
