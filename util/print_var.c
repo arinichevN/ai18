@@ -13,20 +13,20 @@ void print_var(HardwareSerial *serial){
 	extern ChannelLList channels;
 	extern AppSerial serials[];
 	serial->print("app.id: ");serial->println(app.id);
-	FOREACH_SERIAL(i)
+	FOREACH_SERIAL(i){
 		print_appSerial(&serials[i], serial);
 	}
 	
 	serial->println("channel initial:");
 	serial->println("id");
-	FOREACH_CHANNEL(&channels)
+	FOREACH_CHANNEL(&channels){
 		PRINT_CELL(channel->id);
 		PRINT_NL;
 	}
 	
 	serial->println("\nchannel runtime:");
 	serial->println("id\tstate\terror\tsec_state");
-	FOREACH_CHANNEL(&channels)
+	FOREACH_CHANNEL(&channels){
 		PRINT_CELL(channel->id);
 		PRINT_CELL(channel_getStateStr(channel));
 		PRINT_CELL(channel_getErrorStr(channel));

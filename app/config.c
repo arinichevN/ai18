@@ -2,7 +2,7 @@
 
 static int appConfig_check (AppConfig *item){
 	int r = ERROR_NO;
-	FOREACH_SERIAL(i)
+	FOREACH_SERIAL(i){
 		r = appSerialConfig_check(&item->serial[i]);
 		if(r != ERROR_NO) return r;
 	}
@@ -25,14 +25,14 @@ static void appConfig_setDefault(AppConfig *item){
 	sid = SERIAL_ID0;
 	
 	//-user_config:
-	APP_SET_DEFAULT_SERIAL_CONFIG_SERVER
+	APP_SET_DEFAULT_SERIAL_CONFIG_DEBUG
 	
 #endif
 #ifdef USE_SERIAL1
 	sid = SERIAL_ID1;
 	
 	//-user_config:
-	APP_SET_DEFAULT_SERIAL_CONFIG_DEBUG
+	APP_SET_DEFAULT_SERIAL_CONFIG_SERVER
 	
 #endif
 #ifdef USE_SERIAL2

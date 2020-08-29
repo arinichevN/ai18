@@ -2,14 +2,14 @@
 #define PMEM_H
 
 #include <EEPROM.h>
-#include "../model/channel.h"
+#include "../model/channel/main.h"
 #include "../app/main.h"
 #include "../app.h"
-#include "crc.h"
+#include "../util/crc.h"
 
 typedef struct {
 	int id;
-
+	int enable;
 } PmemChannel;
 
 

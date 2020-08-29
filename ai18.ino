@@ -4,7 +4,7 @@
 App app;
 ChannelLList channels = LLIST_INITIALIZER;
 AppSerial serials[SERIAL_COUNT];
-	
+
 void setup(){
 	app_init(&app);
 }
@@ -13,7 +13,7 @@ void setup(){
 
 void loop() {
 	//stw_start();
-	app_control(&app, serials, &channels);
+	CONTROL_N(app);
 	//stw_stop();
 }
 

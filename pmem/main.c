@@ -1,4 +1,4 @@
-#include "pmem.h"
+#include "main.h"
 
 #define PMEM_APP_SIZE sizeof(AppConfig)
 #define PMEM_CRC_SIZE sizeof(uint8_t)
@@ -87,12 +87,12 @@ int pmem_hasSpaceForAppConfig(){
 
 void pmem_toChannel(Channel *channel, PmemChannel *pchannel){
 	channel->id = pchannel->id;
-
+	channel->enable = pchannel->enable;
 }
 
 void pmem_fromChannel(PmemChannel *pchannel, Channel *channel){
 	pchannel->id = channel->id;
-
+	pchannel->enable = channel->enable;
 }
 
 int pmem_getPChannel(PmemChannel *item, size_t ind) {
