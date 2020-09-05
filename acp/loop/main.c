@@ -28,10 +28,7 @@ ACPL *acpl_new(){
 
 int acpl_begin(ACPL **item) {
 	ACPL *tacpl = acpl_new();
-	if(tacpl == NULL) {
-		printdln("acpl: failed to allocate memory");
-		return 0;
-	}
+	if(tacpl == NULL) return 0;
 	ton_setInterval(&tacpl->pack_tmr, ACP_PACK_TIMEOUT_MS);
 	ton_setInterval(&tacpl->busy_tmr, ACP_BUSY_TIMEOUT_MS);
 	acpl_reset(tacpl);

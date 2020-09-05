@@ -60,10 +60,7 @@ ACPLY *acply_new(){
 
 int acply_begin(ACPLY **item){
 	ACPLY *titem = acply_new();
-	if(titem == NULL) {
-		printdln("failed to allocate memory for spy");
-		return 0;
-	}
+	if(titem == NULL) return 0;
 	titem->acpl = NULL;
 	if(!acpl_begin(&titem->acpl)) return 0;
 	acply_init(titem);
