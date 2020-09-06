@@ -84,6 +84,7 @@ int appSerial_beginKind(AppSerial *serial, AppSerialConfig *config, HardwareSeri
 			if(!appSerial_beginServer(serial)){
 				 return ERROR_SERIAL_BEGIN;
 			}
+			serial->kind = config->kind;
 			printdln(": server");
 			break;
 #endif
@@ -91,6 +92,7 @@ int appSerial_beginKind(AppSerial *serial, AppSerialConfig *config, HardwareSeri
 			if(*serial_debug == NULL){
 				appSerial_beginDevice(config, serial->device);
 				*serial_debug = serial->device;
+				serial->kind = config->kind;
 				printdln(": debug");
 			}
 			break;
@@ -98,7 +100,6 @@ int appSerial_beginKind(AppSerial *serial, AppSerialConfig *config, HardwareSeri
 			printdln(": unknown");
 			break;
 	}
-	serial->kind = config->kind;
 	return ERROR_NO;
 }
 
