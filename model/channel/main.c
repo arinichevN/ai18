@@ -95,6 +95,7 @@ int channel_start(Channel *item){
 int channel_stop(Channel *item){
 	printd("stopping channel ");printdln(item->ind); 
 	item->enable = NO;
+	item->out.state = 0;
 	item->control = channel_OFF;
 	CHANNEL_SAVE_FIELD(enable)
 	return 1;
