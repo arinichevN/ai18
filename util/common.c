@@ -36,10 +36,12 @@ double tsToDouble(struct timespec v){
 const char *getErrorStr(int v){
 	switch(v){
 		case ERROR_NO:						return "no";
+		case ERROR_SOME:					return "Esome";
 		case WARNING_READ:					return "Wread";
 		case WARNING_BAD_DATA:				return "Wdata";
 		case ERROR_SUBBLOCK:				return "Esubb";
 		case ERROR_BLOCK_STATUS:			return "Ebstat";
+		case ERROR_DEVICE_KIND:				return "Edevkn";
 		case ERROR_GOAL:					return "Egoal";
 		case ERROR_SAVE_GOAL:				return "Esgoal";
 		case ERROR_METHOD:					return "Emeth";
@@ -50,6 +52,7 @@ const char *getErrorStr(int v){
 		case ERROR_PID_KD:					return "Epidkd";
 		case ERROR_POS2_MODE:				return "Ep2md";
 		case ERROR_POS2_HYS:				return "Ep2hys";
+		case ERROR_PWM:						return "Epwm";
 		case ERROR_PMEM_READ:				return "Epmread";
 		case ERROR_READ:					return "Eread";
 		case ERROR_CHANNELS:				return "Echns";
@@ -67,6 +70,10 @@ const char *getErrorStr(int v){
 		case ERROR_SLAVE_START:				return "Eslst";
 		case ERROR_SLAVE_STOP:				return "Eslsp";
 		case ERROR_RETRY:					return "Eretry";
+		case ERROR_TERMOCOUPLE_OPEN:		return "Etmco";
+		case ERROR_TERMOCOUPLE_SC_VCC:		return "Etmcsv";
+		case ERROR_TERMOCOUPLE_SC_GND:		return "Etmcsg";
+		case ERROR_RTC:						return "Ertc";
 	}
 	return "?";
 }
