@@ -9,7 +9,7 @@ extern void print_var(HardwareSerial *serial);
 
 Channel *srvc_getChannel(ACPLS *item){
 	int id;
-	if(acp_packGetCellI(item->acpl->buf, ACP_IND_ID, &id)){
+	if(acp_packGetCellI(item->acpl->buf, ACP_REQUEST_IND_ID, &id)){
 		FOREACH_CHANNEL(&channels){
 			if(id == channel->id){
 				return channel;
@@ -25,7 +25,7 @@ Channel *srvc_getChannel(ACPLS *item){
 
 int srvc_forThisApp(ACPLS *item){
 	int id;
-	if(acp_packGetCellI(item->acpl->buf, ACP_IND_ID, &id)){
+	if(acp_packGetCellI(item->acpl->buf, ACP_REQUEST_IND_ID, &id)){
 		if(id == app.id){
 			return 1;
 		}else{
@@ -45,7 +45,7 @@ void acnf_getFTS (ACPLS *item, HardwareSerial *serial){
 
 void acnf_getExists(ACPLS *item, HardwareSerial *serial){
 	int id;
-	if(acp_packGetCellI(item->acpl->buf, ACP_IND_ID, &id)){
+	if(acp_packGetCellI(item->acpl->buf, ACP_REQUEST_IND_ID, &id)){
 		FOREACH_CHANNEL(&channels){
 			if(id == channel->id){
 				goto success;
@@ -201,7 +201,7 @@ void srvc_getAppConfigFieldBr(ACPLS *item, int (*getfunc)(AppConfig *)){
 void srvc_getAppConfigSrField(ACPLS *item, int (*getfunc)(AppSerialConfig *)){
 	if(!srvc_forThisApp(item)) {ACPLS_RESET return;}
 	int serial_id;
-	if(!acp_packGetCellI(item->acpl->buf, ACP_IND_PARAM1, &serial_id)){ACPLS_RESET return;}
+	if(!acp_packGetCellI(item->acpl->buf, ACP_REQUEST_IND_PARAM1, &serial_id)){ACPLS_RESET return;}
 	AppConfig conf;
 	if(!pmem_getAppConfig(&conf)){ACPLS_RESET return;}
 	int v;
@@ -233,7 +233,7 @@ void acnf_getAppError(ACPLS *item, HardwareSerial *serial){srvc_getrAppFieldSF(i
 void srvc_setAppConfigField(ACPLS *item, int (*checkfunc)(int ), void (*setfunc)(AppConfig *, int v)){
 	if(!srvc_forThisApp(item)) {ACPLS_RESET return;}
 	int v;
-	if(acp_packGetCellI(item->acpl->buf, ACP_IND_PARAM1, &v)){
+	if(acp_packGetCellI(item->acpl->buf, ACP_REQUEST_IND_PARAM1, &v)){
 		AppConfig conf;
 		if(pmem_getAppConfig(&conf)){
 			if(checkfunc(v)){
@@ -248,11 +248,11 @@ void srvc_setAppConfigField(ACPLS *item, int (*checkfunc)(int ), void (*setfunc)
 void srvc_setAppSerialConfigField(ACPLS *item, int (*checkfunc)(int ), void (*setfunc)(AppSerialConfig *, int v)){
 	if(!srvc_forThisApp(item)) {ACPLS_RESET return;}
 	int serial_id;
-	if(!acp_packGetCellI(item->acpl->buf, ACP_IND_PARAM1, &serial_id)){
+	if(!acp_packGetCellI(item->acpl->buf, ACP_REQUEST_IND_PARAM1, &serial_id)){
 		goto done;
 	}
 	int v;
-	if(!acp_packGetCellI(item->acpl->buf, ACP_IND_PARAM2, &v)){
+	if(!acp_packGetCellI(item->acpl->buf, ACP_REQUEST_IND_PARAM2, &v)){
 		goto done;
 	}
 	if(!checkfunc(v)){
@@ -275,7 +275,7 @@ void srvc_setAppSerialConfigField(ACPLS *item, int (*checkfunc)(int ), void (*se
 
 void acnf_setAppId(ACPLS *item, HardwareSerial *serial){
 	int v;
-	if(acp_packGetCellI(item->acpl->buf, ACP_IND_ID, &v)){
+	if(acp_packGetCellI(item->acpl->buf, ACP_REQUEST_IND_ID, &v)){
 		AppConfig conf;
 		if(pmem_getAppConfig(&conf)){
 			if(appc_checkId(v)){
@@ -298,7 +298,7 @@ void acnf_getIdFirst(ACPLS *item, HardwareSerial *serial){
 void acnf_setIdFirst(ACPLS *item, HardwareSerial *serial){
 	if(!srvc_forThisApp(item)) {ACPLS_RESET return;}
 	int v;
-	if(acp_packGetCellI(item->acpl->buf, ACP_IND_PARAM1, &v)){
+	if(acp_packGetCellI(item->acpl->buf, ACP_REQUEST_IND_PARAM1, &v)){
 		FOREACH_CHANNEL(&channels){
 			PmemChannel pchannel;
 			if(pmem_getPChannel(&pchannel, channel->ind)){
