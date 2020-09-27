@@ -20,16 +20,12 @@ const char *channel_getErrorStr(Channel *item){
 	return getErrorStr(item->error_id);
 }
 
-void channel_setParam(Channel *item, int id, int sensor_ind){
-	item->id = id;
-	item->sensor_ind = sensor_ind;
-}
-
 void channel_setDefaults(Channel *item, size_t ind){
 	const ChannelParam *param = &CHANNEL_DEFAULT_PARAMS[ind];
 	item->id = param->id;
 	item->enable = param->enable;
 	item->sensor_ind = param->sensor_ind;
+	printd("channel default param:"); printd(" id: "); printd(item->id); printd(" sensor_ind: "); printd(item->sensor_ind); printdln(" ");
 }
 
 static void channel_setFromNVRAM(Channel *item, size_t ind){
@@ -38,6 +34,7 @@ static void channel_setFromNVRAM(Channel *item, size_t ind){
 		item->error_id = ERROR_PMEM_READ;
 		return;
 	}
+	printd("channel NVRAM param:"); printd(" id: "); printd(item->id); printd(" sensor_ind: "); printd(item->sensor_ind); printdln(" ");
 }
 
 void channel_setParam(Channel *item, size_t ind, int default_btn){

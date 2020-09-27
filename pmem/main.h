@@ -10,6 +10,7 @@
 typedef struct {
 	int id;
 	int enable;
+	int sensor_ind;
 } PmemChannel;
 
 

@@ -88,11 +88,13 @@ int pmem_hasSpaceForAppConfig(){
 void pmem_toChannel(Channel *channel, PmemChannel *pchannel){
 	channel->id = pchannel->id;
 	channel->enable = pchannel->enable;
+	channel->sensor_ind = pchannel->sensor_ind;
 }
 
 void pmem_fromChannel(PmemChannel *pchannel, Channel *channel){
 	pchannel->id = channel->id;
 	pchannel->enable = channel->enable;
+	pchannel->sensor_ind = channel->sensor_ind;
 }
 
 int pmem_getPChannel(PmemChannel *item, size_t ind) {
