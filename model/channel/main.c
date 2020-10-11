@@ -20,40 +20,66 @@ const char *channel_getErrorStr(Channel *item){
 	return getErrorStr(item->error_id);
 }
 
-void channel_setDefaults(Channel *item, size_t ind){
-	const ChannelParam *param = &CHANNEL_DEFAULT_PARAMS[ind];
+static int channelParam_check(const ChannelParam *item){
+	if(!common_checkBlockStatus(item->enable)){
+		printd("channelParam_check(): bad enable where id = "); printdln(item->id);
+		return ERROR_PARAM;
+	}
+	return ERROR_NO;
+}
+
+static int channel_setParam(Channel *item, const ChannelParam *param){
+	int r = channelParam_check(param);
+	if(r != ERROR_NO){
+		return r;
+	}
 	item->id = param->id;
 	item->enable = param->enable;
 	item->sensor_ind = param->sensor_ind;
-	printd("channel default param:"); printd(" id: "); printd(item->id); printd(" sensor_ind: "); printd(item->sensor_ind); printdln(" ");
+	item->device_kind = DEVICE_KIND_DS18B20;
+	printd("channel param:"); printd(" id: "); printd(item->id); printd(" sensor_ind: "); printd(item->sensor_ind); printdln(" ");
+	return ERROR_NO;
 }
 
-static void channel_setFromNVRAM(Channel *item, size_t ind){
-	if(!pmem_getChannel(item, ind)){
-		printdln("   failed to get channel");
-		item->error_id = ERROR_PMEM_READ;
-		return;
+static int channel_setDefaults(Channel *item, size_t ind){
+	const ChannelParam *param = &CHANNEL_DEFAULT_PARAMS[ind];
+	int r = channel_setParam(item, param);
+	if(r == ERROR_NO){
+		pmem_savePChannel(param, ind);
 	}
-	printd("channel NVRAM param:"); printd(" id: "); printd(item->id); printd(" sensor_ind: "); printd(item->sensor_ind); printdln(" ");
+	return r;
 }
 
-void channel_setParam(Channel *item, size_t ind, int default_btn){
+static int channel_setFromNVRAM(Channel *item, size_t ind){
+	ChannelParam param;
+	if(!pmem_getPChannel(&param, ind)){
+		printdln("   failed to get channel from NVRAM");
+		return ERROR_PMEM_READ;
+	}
+	return channel_setParam(item, &param);
+}
+
+static int channel_setParamAlt(Channel *item, size_t ind, int default_btn){
 	if(default_btn == BUTTON_DOWN){
-		channel_setDefaults(item, ind);
-		pmem_saveChannel(item, ind);
+		int r = channel_setDefaults(item, ind);
+		if(r != ERROR_NO){
+			return r;
+		}
 		printd("\tdefault param\n");
 	}else{
-		channel_setFromNVRAM(item, ind);
+		int r = channel_setFromNVRAM(item, ind);
+		if(r != ERROR_NO){
+			return r;
+		}
 		printd("\tNVRAM param\n");
 	}
 	item->ind = ind;
-	item->device_kind = DEVICE_KIND_DS18B20;
+	return ERROR_NO;
 }
 
 void channel_begin(Channel *item, size_t ind, int default_btn){
 	printd("beginning channel ");printd(ind); printdln(":");
-	item->error_id = ERROR_NO;
-	channel_setParam(item, ind, default_btn);
+	item->error_id = channel_setParamAlt(item, ind, default_btn);
 	item->control = channel_INIT;
 	printd("\tid: ");printdln(item->id);
 	printd("\n");
@@ -81,27 +107,43 @@ void channels_begin(ChannelLList *channels, int default_btn){
 	}
 }
 
+void channel_free(Channel *item){
+	;
+}
+
 int channel_start(Channel *item){
-	printd("starting channel ");printd(item->ind);printdln(":");
-	item->enable = YES;
-	item->control = channel_INIT;
-	CHANNEL_SAVE_FIELD(enable)
-	return 1;
+	if(item->control == channel_OFF || item->control == channel_FAILURE){
+		printd("starting channel ");printd(item->ind);printdln(":");
+		item->enable = YES;
+		item->control = channel_INIT;
+		CHANNEL_SAVE_FIELD(enable)
+		return 1;
+	}
+	return 0;
 }
 
 int channel_stop(Channel *item){
-	printd("stopping channel ");printdln(item->ind); 
+	printd("stopping channel ");printdln(item->ind);
 	item->enable = NO;
 	item->out.state = 0;
+	item->error_id = ERROR_NO;
 	item->control = channel_OFF;
 	CHANNEL_SAVE_FIELD(enable)
 	return 1;
 }
 
-int channel_reload(Channel *item){
-	printd("reloading channel ");printd(item->ind); printdln(":");
-	channel_setFromNVRAM(item, item->ind);
-	item->control = channel_INIT;
+int channel_disconnect(Channel *item){
+	printd("disconnecting channel ");printdln(item->ind);
+	item->out.state = 0;
+	item->error_id = ERROR_NO;
+	item->control = channel_OFF;
+	return 1;
+}
+
+int channel_reset(Channel *item){
+	printd("resetting channel ");printd(item->ind); printdln(":");
+	channel_free(item);
+	channel_begin(item, item->ind, digitalRead(DEFAULT_CONTROL_PIN));
 	return 1;
 }
 
@@ -112,12 +154,6 @@ int channels_activeExists(ChannelLList *channels){
 		}
 	}
 	return 0;
-}
-
-void channels_stop(ChannelLList *channels){
-	FOREACH_CHANNEL(channels){
-		channel_stop(channel);
-	}
 }
 
 int channels_getIdFirst(ChannelLList *channels, int *out){

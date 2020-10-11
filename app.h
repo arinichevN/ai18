@@ -54,14 +54,14 @@
  * uncomment the following line if you want to get parameters values from
  * NVRAM over serial interface
  */
-//#define SERIAL_SERVER_NVRAM_GET_COMMANDS
+#define SERIAL_SERVER_NVRAM_GET_COMMANDS
 
 /*
  * -user_config:
  * uncomment the following line if you want to set parameters values to
  * NVRAM over serial interface
  */
-//#define SERIAL_SERVER_NVRAM_SET_COMMANDS
+#define SERIAL_SERVER_NVRAM_SET_COMMANDS
 
 /*
  * -user_config:

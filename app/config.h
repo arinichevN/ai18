@@ -29,4 +29,6 @@ typedef struct {
 APPCONFIG_DEC_GET_FIELD_FUNC(id)
 APPCONFIG_DEC_SET_FIELD_FUNC(id)
 
+extern int appConfig_begin(AppConfig *item, int btn);
+
 #endif

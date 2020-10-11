@@ -19,7 +19,6 @@ typedef struct app_st{
 	
 	AppErrorIndicator error_indicator;
 	void (*control)(struct app_st *);
-	void (*next_control)(struct app_st *);
 	
 	OneWire one_wire;
 	DallasTemperature sensors;
