@@ -3,15 +3,6 @@
 
 /*
  * -user_config:
- * if digitalRead(DEFAULT_CONTROL_PIN) returns BUTTON_DOWN on system startup,
- * all application and channels settings will be set to default values.
- * You can find default values in ./app/main.c, ./app/main.h, ./model/channel.h
- * files.
- */
-#define DEFAULT_CONTROL_PIN 2
-
-/*
- * -user_config:
  * this pin will be high while delay in setup function and in case of 
  * error after setup.
  */
@@ -19,21 +10,12 @@
 
 /*
  * -user_config:
- * set pin all your sensors are connected to
+ * if digitalRead(DEFAULT_CONTROL_PIN) returns BUTTON_DOWN on system startup,
+ * all application parameters will be set to default values.
+ * You can find default values in ./app/param.c, ./app/serials.c, ./model/channels.c
+ * files.
  */
-#define SENSOR_PIN 6
-
-/*
- * -user_config:
- * set resolution for all your DS18B20 sensors:
- */
-#define SENSOR_RESOLUTION 12
-
-/*
- * -user_config:
- * set period for sending request to DS18B20 sensors:
- */
-#define READ_PERIOD_MS 1000
+#define DEFAULT_CONTROL_PIN 2
 
 /*
  * -user_config:
@@ -44,24 +26,17 @@
 
 /*
  * -user_config:
- * uncomment the following line if you want to get parameters values from
- * RAM over serial interface
+ * uncomment the following line if you want to enable Application Object IDs,
+ * this allows you to configure this application over serial server
  */
-#define SERIAL_SERVER_RAM_GET_COMMANDS
+#define USE_AOIDS
 
 /*
  * -user_config:
- * uncomment the following line if you want to get parameters values from
- * NVRAM over serial interface
+ * uncomment the following line if you want to enable Network Object IDs,
+ * this makes your application objects accessible over serial network
  */
-#define SERIAL_SERVER_NVRAM_GET_COMMANDS
-
-/*
- * -user_config:
- * uncomment the following line if you want to set parameters values to
- * NVRAM over serial interface
- */
-#define SERIAL_SERVER_NVRAM_SET_COMMANDS
+#define USE_NOIDS
 
 /*
  * -user_config:
@@ -77,6 +52,5 @@
  * uncomment the following line if you need debug messages:
  */
 #define MODE_DEBUG
-
 
 #endif 
