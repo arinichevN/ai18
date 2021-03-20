@@ -119,6 +119,13 @@ typedef struct {
 	yn_t success;
 } Fts;
 
+typedef enum {
+	TEXT_ALIGNMENT_UNKNOWN,
+	TEXT_ALIGNMENT_LEFT,
+	TEXT_ALIGNMENT_RIGHT,
+	TEXT_ALIGNMENT_CENTER,
+	TEXT_ALIGNMENT_JUSTIFIED
+} talign_t;
 
 #define ARRLEN(A) (sizeof(A) / sizeof((A)[0]))
 
@@ -138,5 +145,7 @@ extern struct timespec getCurrentTs();
 extern double tsToDouble(struct timespec v);
 
 extern const char *getErrorStr(err_t v);
+
+extern const char *getStateStr(state_t v);
 
 #endif 

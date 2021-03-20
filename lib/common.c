@@ -83,3 +83,18 @@ const char *getErrorStr(err_t v){
 	}
 	return "?";
 }
+
+const char *getStateStr(state_t v){
+	switch(v){
+		case STATE_UNKNOWN:		return "UNKNOWN";
+		case STATE_BUSY:		return "BUSY";
+		case STATE_IDLE:		return "IDLE";
+		case STATE_RUN:			return "RUN";
+		case STATE_OFF:			return "OFF";
+		case STATE_DONE:		return "DONE";
+		case STATE_FAILURE:		return "FAILURE";
+		case STATE_WAIT:		return "WAIT";
+		case STATE_INIT:		return "INIT";
+	}
+	return "?";
+}
