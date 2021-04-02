@@ -10,9 +10,9 @@
  * address (8-byte ROM code, unique for each sensor)
  */
 const ChannelParam CHANNEL_DEFAULT_PARAMS[] = {
-	{21, 3, 9, {40, 238, 195, 169, 33, 22, 2, 183}},
-	//{22, 3, 9, {40, 238, 98, 171, 33, 22, 2, 78}},
-	//{23, 3, 9, {40, 238, 202, 193, 33, 22, 2, 200}}
+	{11, 3, 9, {40, 238, 195, 169, 33, 22, 2, 183}},
+	{12, 5, 9, {40, 238, 98, 171, 33, 22, 2, 78}},
+	{13, 7, 9, {40, 238, 202, 193, 33, 22, 2, 200}}
 };
 
 #define CHANNEL_COUNT (sizeof CHANNEL_DEFAULT_PARAMS / sizeof CHANNEL_DEFAULT_PARAMS[0])

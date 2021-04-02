@@ -52,9 +52,7 @@ void appOwire_serveAoidRequestSelf(void *vself, Aoid *oid, void *vserver, int co
 	//AppOwire *self = (AppOwire *) vself;
 	Acpls *server = (Acpls *) vserver;
 	switch(command){
-		case CMD_AOID_GET_ACP_COMMAND_SUPPORTED:
-			aoidServer_sendSupportedNone(oid, server);
-			return;
+		CASE_AOID_GET_ACP_COMMAND_SUPPORTED(None)
 	}
 	acpls_reset(server);
 }
@@ -92,9 +90,7 @@ void appOwire_serveAoidRequestGGS(void *vself, Aoid *oid, void *vserver, int com
 			}
 			acpls_reset(server);
 			return;
-		case CMD_AOID_GET_ACP_COMMAND_SUPPORTED:
-			aoidServer_sendSupportedGGS(oid, server);
-			return;
+		CASE_AOID_GET_ACP_COMMAND_SUPPORTED(GGS)
 	}
 	acpls_reset(server);
 }

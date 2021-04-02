@@ -16,9 +16,7 @@ static void channel_serveAoidRequestSelf(void *vself, Aoid *oid, void *vserver, 
 			channel_reset(self);
 			acpls_reset(server);
 			return;
-		case CMD_AOID_GET_ACP_COMMAND_SUPPORTED:
-			aoidServer_sendSupportedSSR(oid, server);
-			return;
+		CASE_AOID_GET_ACP_COMMAND_SUPPORTED(SSR)
 	}
 	acpls_reset(server);
 }
@@ -31,18 +29,14 @@ static void channel_serveAoidRequestAddressRead(void *vself, Aoid *oid, void *vs
 			channel_readAddress(self);
 			acpls_reset(server);
 			return;
-		case CMD_AOID_GET_ACP_COMMAND_SUPPORTED:
-			aoidServer_sendSupportedSet(oid, server);
-			return;
+		CASE_AOID_GET_ACP_COMMAND_SUPPORTED(Set)
 	}
 	acpls_reset(server);
 }
 //static void channel_serveRequestNone(void *vself, Aoid *oid, void *vserver, int command) {
 	//Acpls *server = (Acpls *) vserver;
 	//switch(command){
-		//case CMD_AOID_GET_ACP_COMMAND_SUPPORTED:
-			//aoidServer_sendSupportedNone(oid, server);
-			//return;
+		//CASE_AOID_GET_ACP_COMMAND_SUPPORTED(None)
 	//}
 	//acpls_reset(server);
 //}
@@ -80,9 +74,7 @@ static void channel_serveAoidRequestGGS(void *vself, Aoid *oid, void *vserver, i
 			}
 			acpls_reset(server);
 			return;
-		case CMD_AOID_GET_ACP_COMMAND_SUPPORTED:
-			aoidServer_sendSupportedGGS(oid, server);
-			return;
+		CASE_AOID_GET_ACP_COMMAND_SUPPORTED(GGS)
 	}
 	acpls_reset(server);
 }
