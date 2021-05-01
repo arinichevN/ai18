@@ -16,7 +16,7 @@ err_t appParam_check (AppParam *self){
  * in this function you can set default parameters for application:
  */
 void appParam_setDefault(AppParam *self){
-	self->id = 10;
+	self->id = 20;
 }
 
 

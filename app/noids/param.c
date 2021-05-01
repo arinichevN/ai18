@@ -5,8 +5,8 @@
  * in this function you can set default parameters for network objects:
  */
 void noidsParam_setDefault(NoidsParam *self){
-	self->is_first = YES;
-	self->next_external_noid_id = 21;
+	self->is_first = NO;
+	self->next_external_noid_id = 31;
 }
 
 err_t noidsParam_check(const NoidsParam *self){
